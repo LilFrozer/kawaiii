@@ -1,12 +1,12 @@
+/*ВНИМАНИЕ ВСЕ РАБОТЫ ПРОДЕЛАНЫ БЕЗ ИСПОЛЬЗОВАНИЯ ООП*/
 #include <iostream>
 #include <string> /*String*/
-#include <windows.h> /*Sleep*/
+#include <Windows.h> /*Sleep*/
 #include <conio.h> /*getch*/
 #include <stdio.h>
 #include <mmsystem.h>
 using namespace std;
 int main();
-void game_create();
 void game_update();
 void game_logic();
 void game_exit();
@@ -20,8 +20,12 @@ enum ColorConsole {
     Blue = 3,
     Green = 2
 };
-const int width = 10;
-const int height = 10;
+enum eDirection {STOP = 0, SHOOT};
+eDirection dir;
+const int width = 40; /*ШИРИНА ОКНА ИГРЫ*/
+const int height = 16; /*ВЫСОТА ОКНА ИГРЫ*/
+int x_1_ship = 1, y_1_ship = 8, x_2_ship = 2, y_2_ship = 8;
+int get_weapon_x, get_weapon_y;
 bool game_is = 0; /*Изначально игра не запущена.*/
 void get_window_menu() {
     system("cls");
@@ -42,19 +46,13 @@ void get_window_menu() {
         game_is = true;
     }
     while (game_is == true) {
-        Sleep(100);
-        game_create();
         game_update();
         game_logic();
-        if (_kbhit()) {
-            char c1 = _getch(); /*Выход из игры -> Для разработчика*/
-            if (c1 == 'k' or c1 == 'K') {
-                game_is == 0;
-                game_exit();
-                break;
-            }
+        if (game_is == 0) {
+            break;
         }
     }
+    game_exit();
 };
 void game_exit() {
     system("cls");
@@ -85,52 +83,55 @@ void game_exit() {
         cout << "РАЗРАБОТЧИК -> https://github.com/LilFrozer";
     }
 }
-void game_create() {
-    int x_ship = 2, y_ship = -10;
-}
 void game_update() {
     system("cls");
     for (int i = 0; i < width; i++) {
     SetConsoleTextAttribute(hConsole, White);
     cout << "#";
-}
-cout << "\n";
-for (int i = 0; i < height; i++) {
-    for (int j = 0; j < width; j++) {
-        if (j == 0 or j == (width - 1)) {
-            SetConsoleTextAttribute(hConsole, White);
-            cout << "#";
+    }
+    cout << "\n";
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            if (j == 0 or j == (width - 1)) {
+                SetConsoleTextAttribute(hConsole, White);
+                cout << "#";
+            }
+            else if ((j == x_2_ship and i == y_2_ship) or (j == x_1_ship and i == y_1_ship)) {
+                SetConsoleTextAttribute(hConsole, Green);
+                cout << "$";
+            }
+            else {
+                cout << " ";
+            }
         }
-        else {
-            cout << " ";
-        }
+        cout << "\n";
+    }
+    for (int i = 0; i < width; i++) {
+        SetConsoleTextAttribute(hConsole, White);
+        cout << "#";
     }
     cout << "\n";
 }
-for (int i = 0; i < width; i++) {
-    SetConsoleTextAttribute(hConsole, White);
-    cout << "#";
-}
-cout << "\n";
-}
-BOOL ShowConsoleCursor(BOOL bShow) {
-    CONSOLE_CURSOR_INFO cci;
-    HANDLE hStdOut;
-    hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    if(hStdOut == INVALID_HANDLE_VALUE)
-        return FALSE;
-    if(!GetConsoleCursorInfo(hStdOut, &cci))
-        return FALSE;
-    cci.bVisible = bShow;
-    if(!SetConsoleCursorInfo(hStdOut,&cci))
-        return FALSE;
-    return TRUE;
-}
 void game_logic() {
-    
+    if (_kbhit()) {
+        char c = _getch();
+        if ((c == 'w' or c == 'W') and y_1_ship != 0 and y_2_ship != 0) { /*ВВЕРХ*/
+            y_1_ship--;
+            y_2_ship--;
+        }
+        else if ((c == 's' or c == 'S') and y_1_ship != 15 and y_2_ship != 15) { /*ВНИЗ*/
+            y_1_ship++;
+            y_2_ship++;
+        }
+        else if (c == 'D' or c == 'd') { /*ВЫСТРЕЛЛЛЛ*/
+
+        }
+        else if (c == 'k' or c == 'K') { /*Выход из игры -> Для разработчика*/
+            game_is = false;
+        }
+    }
 }
 int main() {
-    ShowConsoleCursor(FALSE); /*Скрывает курсор*/
     get_window_menu();
     /*Спасибо за просмотр!*/
     return 0;
