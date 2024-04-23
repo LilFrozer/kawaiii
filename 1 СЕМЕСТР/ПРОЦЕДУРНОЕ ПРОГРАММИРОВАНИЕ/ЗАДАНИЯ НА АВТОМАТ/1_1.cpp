@@ -1,5 +1,5 @@
 /*ВНИМАНИЕ ВСЕ РАБОТЫ ПРОДЕЛАНЫ БЕЗ ИСПОЛЬЗОВАНИЯ ООП*/
-/*ЗАПУСКАТЬ СТРОКО В VS COMMUNITY*/
+/*ЗАПУСКАТЬ СТРОГО В VS COMMUNITY*/
 #include <iostream>
 #include <string> /*String*/
 #include <Windows.h> /*Sleep*/
