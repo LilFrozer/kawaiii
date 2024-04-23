@@ -1,3 +1,5 @@
+/*ВНИМАНИЕ ВСЕ РАБОТЫ ПРОДЕЛАНЫ БЕЗ ИСПОЛЬЗОВАНИЯ ООП*/
+/*ЗАПУСКАТЬ СТРОКО В VS COMMUNITY*/
 #include <iostream>
 #include <windows.h>
 #include <cmath>
