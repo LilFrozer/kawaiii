@@ -11,6 +11,7 @@ int main();
 void game_update();
 void game_logic();
 void game_exit();
+void clear();
 HANDLE hConsole;
 enum ColorConsole {
     Grey = 8,
@@ -21,12 +22,12 @@ enum ColorConsole {
     Blue = 3,
     Green = 2
 };
-enum eDirection {STOP = 0, SHOOT};
+enum eDirection { STOP = 0, SHOOT };
 eDirection dir;
 const int width = 40; /*ШИРИНА ОКНА ИГРЫ*/
 const int height = 16; /*ВЫСОТА ОКНА ИГРЫ*/
 int x_1_ship = 1, y_1_ship = 8, x_2_ship = 2, y_2_ship = 8;
-int get_weapon_x, get_weapon_y;
+int get_weapon_x = -1, get_weapon_y = -1;
 bool game_is = 0; /*Изначально игра не запущена.*/
 void get_window_menu() {
     system("cls");
@@ -49,6 +50,7 @@ void get_window_menu() {
     while (game_is == true) {
         game_update();
         game_logic();
+        clear(); /*ОЧИСТКА ТЕРМИНАЛА ОТ КУРСОРА*/
         if (game_is == 0) {
             break;
         }
@@ -87,8 +89,8 @@ void game_exit() {
 void game_update() {
     system("cls");
     for (int i = 0; i < width; i++) {
-    SetConsoleTextAttribute(hConsole, White);
-    cout << "#";
+        SetConsoleTextAttribute(hConsole, White);
+        cout << "#";
     }
     cout << "\n";
     for (int i = 0; i < height; i++) {
@@ -99,7 +101,21 @@ void game_update() {
             }
             else if ((j == x_2_ship and i == y_2_ship) or (j == x_1_ship and i == y_1_ship)) {
                 SetConsoleTextAttribute(hConsole, Green);
-                cout << "$";
+                if (j == 2) {
+                    cout << ">";
+                }
+                else {
+                    cout << "|";
+                }
+            }
+            else if (j == get_weapon_x and i == get_weapon_y) {
+                SetConsoleTextAttribute(hConsole, Red);
+                if (j % 2 == 0) {
+                    cout << "-";
+                }
+                else {
+                    cout << "+";
+                }
             }
             else {
                 cout << " ";
@@ -124,15 +140,42 @@ void game_logic() {
             y_1_ship++;
             y_2_ship++;
         }
-        else if (c == 'D' or c == 'd') { /*ВЫСТРЕЛЛЛЛ*/
-
+        else if ((c == 'D' or c == 'd') and dir == STOP) { /*ВЫСТРЕЛЛЛЛ*/
+            get_weapon_x = x_2_ship + 1;
+            get_weapon_y = y_2_ship;
+            dir = SHOOT;
         }
         else if (c == 'k' or c == 'K') { /*Выход из игры -> Для разработчика*/
             game_is = false;
         }
     }
+    switch (dir) {
+    case SHOOT:
+        get_weapon_x++;
+        if (get_weapon_x == width - 1) {
+            dir = STOP;
+        }
+    }
+}
+void clear() {
+    COORD H = { 0, 0 };
+    SetConsoleCursorPosition(hConsole, H);
+    for (int i = 1; i <= height; i++) {
+        for (int j = 1; j <= width; j++) {
+            COORD position = { j, i }; //позиция x и y
+            HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+            SetConsoleCursorPosition(hConsole, position);
+            cout << "\b";
+        }
+    }
+    SetConsoleCursorPosition(hConsole, H);
 }
 int main() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO structCursorInfo;
+    GetConsoleCursorInfo(hConsole, &structCursorInfo);
+    structCursorInfo.bVisible = FALSE;
+    SetConsoleCursorInfo(hConsole, &structCursorInfo);
     get_window_menu();
     /*Спасибо за просмотр!*/
     return 0;
