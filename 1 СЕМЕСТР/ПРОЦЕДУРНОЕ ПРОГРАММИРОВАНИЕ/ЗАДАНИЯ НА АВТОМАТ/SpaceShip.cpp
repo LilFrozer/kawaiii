@@ -27,6 +27,12 @@ eDirection dir;
 const int width = 40; /*ШИРИНА ОКНА ИГРЫ*/
 const int height = 16; /*ВЫСОТА ОКНА ИГРЫ*/
 int x_1_ship = 1, y_1_ship = 8, x_2_ship = 2, y_2_ship = 8;
+/*x КООРДИНАТЫ МЕТЕОРИТОВ*/
+int meteor_x_1 = -1, meteor_x_2 = -1, meteor_x_3 = -1, meteor_x_4 = -1, meteor_x_5 = -1, meteor_x_6 = -1, meteor_x_7 = -1, meteor_x_8 = -1, meteor_x_9 = -1, meteor_x_10 = -1, \
+meteor_x_11 = -1, meteor_x_12 = -1, meteor_x_13 = -1, meteor_x_14 = -1;
+/*y КООРДИНАТЫ МЕТЕОРИТОВ*/
+int meteor_y_1 = -1, meteor_y_2 = -1, meteor_y_3 = -1, meteor_y_4 = -1, meteor_y_5 = -1, meteor_y_6 = -1, meteor_y_7 = -1, meteor_y_8 = -1, meteor_y_9 = -1, meteor_y_10 = -1, \
+meteor_y_11 = -1, meteor_y_12 = -1, meteor_y_13 = -1, meteor_y_14 = -1;
 int get_weapon_x = -1, get_weapon_y = -1;
 bool game_is = 0; /*Изначально игра не запущена.*/
 void get_window_menu() {
@@ -87,7 +93,6 @@ void game_exit() {
     }
 }
 void game_update() {
-    system("cls");
     for (int i = 0; i < width; i++) {
         SetConsoleTextAttribute(hConsole, White);
         cout << "#";
@@ -107,6 +112,14 @@ void game_update() {
                 else {
                     cout << "|";
                 }
+            }
+            else if ((j == meteor_x_1 and i == meteor_y_1) or (j == meteor_x_2 and i == meteor_y_2) or (j == meteor_x_3 and i == meteor_y_3) or \
+                (j == meteor_x_4 and i == meteor_y_4) or (j == meteor_x_5 and i == meteor_y_5) or (j == meteor_x_6 and i == meteor_y_6) or \
+                (j == meteor_x_7 and i == meteor_y_7) or (j == meteor_x_8 and i == meteor_y_8) or (j == meteor_x_9 and i == meteor_y_9) or \
+                (j == meteor_x_10 and i == meteor_y_10) or (j == meteor_x_11 and i == meteor_y_11) or (j == meteor_x_12 and i == meteor_y_12) or \
+                (j == meteor_x_13 and i == meteor_y_13) or (j == meteor_x_14 and i == meteor_y_14)) {
+                SetConsoleTextAttribute(hConsole, Yellow);
+                cout << "$";
             }
             else if (j == get_weapon_x and i == get_weapon_y) {
                 SetConsoleTextAttribute(hConsole, Red);
@@ -130,6 +143,9 @@ void game_update() {
     cout << "\n";
 }
 void game_logic() {
+    srand(time(NULL));
+    int new_random = rand() % 14;
+    /*МЕХАНИКУ МЕТЕОРИТОВ ДОДУМЫВАЙ САМ, ЛЕНТЯЙ*/
     if (_kbhit()) {
         char c = _getch();
         if ((c == 'w' or c == 'W') and y_1_ship != 0 and y_2_ship != 0) { /*ВВЕРХ*/
