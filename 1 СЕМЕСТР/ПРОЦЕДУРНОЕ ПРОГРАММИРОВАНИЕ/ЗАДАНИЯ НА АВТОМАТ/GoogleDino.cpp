@@ -2,16 +2,11 @@
 /*ЗАПУСКАТЬ СТРОГО В VS COMMUNITY*/
 #include <iostream>
 #include <windows.h>
-#include <cmath>
-#include <fstream>
 #include <string>
-#include <vector>
 #include <iomanip>
 #include <algorithm>
-#include <limits>
 #include <conio.h>
 #include <time.h>
-#include <chrono>
 #include <thread>
 #include <mmsystem.h>
 #include <stdio.h>
