@@ -34,6 +34,7 @@ enum ColorConsole {
 eDirection h;
 eDirection w1;
 eDirection w3;
+/*ПАСХАЛКА*/
 void happynewyear() {
     system("cls");
     int Y = 6;
