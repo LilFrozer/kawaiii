@@ -163,7 +163,7 @@ void VAR_6(int** x, int N, int M) {
     int max = 0; 
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < M; ++j) {
-            if (i != j and j > i) {
+            if (i != j && j > i) {
                 if (x[i][j] > max) {
                     max = x[i][j];
                 }
@@ -331,7 +331,7 @@ void VAR_13(int** x, int N, int M) {
     }
     int max = 0;
     for (int i = 0; i < cnt_num.size(); ++i) {
-        if (cnt_num[i] > 1 and NUMB[i] > max) {
+        if (cnt_num[i] > 1 && NUMB[i] > max) {
             max = NUMB[i];
         }
     }
